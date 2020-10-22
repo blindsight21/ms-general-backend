@@ -12,6 +12,7 @@ import org.eclipse.persistence.config.BatchWriting;
 import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
@@ -83,7 +84,6 @@ public class DataSourceGeneralConfig {
         return basicDataSource;
     }
 
-    @Primary
     @Bean(name = "generalEntityManagerFactory")
     public LocalContainerEntityManagerFactoryBean productEntityManager(EntityManagerFactoryBuilder builder,
             @Qualifier("generalDatasource") DataSource dataSource) {
@@ -96,6 +96,7 @@ public class DataSourceGeneralConfig {
     }
 
     @Bean(name = "generalTransactionManager")
+    @ConditionalOnMissingBean(PlatformTransactionManager.class)
     public PlatformTransactionManager productTransactionManager(
             @Qualifier("generalEntityManagerFactory") EntityManagerFactory generalEntityManagerFactory) {
 
