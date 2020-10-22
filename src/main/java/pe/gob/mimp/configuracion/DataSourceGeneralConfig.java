@@ -83,6 +83,7 @@ public class DataSourceGeneralConfig {
         return basicDataSource;
     }
 
+    @Primary
     @Bean(name = "generalEntityManagerFactory")
     public LocalContainerEntityManagerFactoryBean productEntityManager(EntityManagerFactoryBuilder builder,
             @Qualifier("generalDatasource") DataSource dataSource) {
